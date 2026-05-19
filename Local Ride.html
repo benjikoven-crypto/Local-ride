@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LocalRide</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      background:#0f1115;
+      color:white;
+      overflow-x:hidden;
+    }
+
+    nav{
+      width:100%;
+      padding:20px 8%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:sticky;
+      top:0;
+      background:rgba(15,17,21,0.9);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      z-index:999;
+    }
+
+    .logo{
+      font-size:28px;
+      font-weight:800;
+      color:#6df59d;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:25px;
+      color:#c7c7c7;
+      font-size:15px;
+    }
+
+    .hero{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:70px 8%;
+      gap:60px;
+    }
+
+    .hero-left{
+      max-width:650px;
+    }
+
+    .tag{
+      display:inline-block;
+      padding:8px 14px;
+      background:#1b1f27;
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:999px;
+      color:#7ef6aa;
+      margin-bottom:20px;
+      font-size:14px;
+    }
+
+    h1{
+      font-size:72px;
+      line-height:1;
+      margin-bottom:25px;
+    }
+
+    .green{
+      color:#6df59d;
+    }
+
+    .hero p{
+      color:#b8b8b8;
+      line-height:1.7;
+      font-size:18px;
+      margin-bottom:35px;
+    }
+
+    .buttons{
+      display:flex;
+      gap:15px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:16px 24px;
+      border-radius:14px;
+      border:none;
+      font-weight:700;
+      cursor:pointer;
+      transition:0.2s;
+    }
+
+    .btn-primary{
+      background:#6df59d;
+      color:#08110b;
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-2px);
+    }
+
+    .btn-secondary{
+      background:#1a1d24;
+      color:white;
+      border:1px solid rgba(255,255,255,0.08);
+    }
+
+    .phone{
+      width:360px;
+      background:#181c24;
+      border-radius:35px;
+      padding:20px;
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow:0 30px 80px rgba(0,0,0,0.45);
+    }
+
+    .map{
+      background:url("https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200&auto=format&fit=crop");
+      background-size:cover;
+      background-position:center;
+      height:300px;
+      border-radius:20px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .pin{
+      position:absolute;
+      width:18px;
+      height:18px;
+      background:#ff4d4d;
+      border-radius:50%;
+      border:3px solid white;
+    }
+
+    .pin1{ top:35%; left:28%; }
+    .pin2{ top:58%; left:54%; }
+    .pin3{ top:22%; left:72%; }
+
+    .route-card{
+      margin-top:18px;
+      background:#11141a;
+      border-radius:18px;
+      padding:18px;
+    }
+
+    .route-top{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:12px;
+    }
+
+    .route-title{
+      font-weight:700;
+      font-size:18px;
+    }
+
+    .rating{
+      color:#6df59d;
+      font-weight:700;
+    }
+
+    .note{
+      color:#b8b8b8;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    section{
+      padding:100px 8%;
+    }
+
+    .section-title{
+      font-size:48px;
+      margin-bottom:20px;
+    }
+
+    .section-sub{
+      color:#aaaaaa;
+      max-width:700px;
+      line-height:1.7;
+      margin-bottom:50px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:25px;
+    }
+
+    .card{
+      background:#181c24;
+      padding:28px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,0.06);
+      transition:0.2s;
+    }
+
+    .card:hover{
+      transform:translateY(-4px);
+    }
+
+    .card h3{
+      margin-bottom:15px;
+      font-size:22px;
+    }
+
+    .card p{
+      color:#b8b8b8;
+      line-height:1.6;
+    }
+
+    .stats{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    .pill{
+      background:#11141a;
+      padding:8px 12px;
+      border-radius:999px;
+      color:#6df59d;
+      font-size:13px;
+    }
+
+    .review-section{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:25px;
+    }
+
+    .review{
+      background:#181c24;
+      border-radius:24px;
+      padding:28px;
+      border:1px solid rgba(255,255,255,0.06);
+    }
+
+    .review-user{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:20px;
+    }
+
+    .avatar{
+      width:48px;
+      height:48px;
+      border-radius:50%;
+      background:#6df59d;
+    }
+
+    .review p{
+      color:#c4c4c4;
+      line-height:1.7;
+      margin-bottom:20px;
+    }
+
+    footer{
+      padding:50px 8%;
+      border-top:1px solid rgba(255,255,255,0.08);
+      color:#8b8b8b;
+      text-align:center;
+    }
+
+    @media(max-width:900px){
+      .hero{
+        flex-direction:column;
+        text-align:center;
+      }
+
+      h1{
+        font-size:54px;
+      }
+
+      .buttons{
+        justify-content:center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">LocalRide</div>
+
+    <div class="nav-links">
+      <span>Routes</span>
+      <span>Reviews</span>
+      <span>Communities</span>
+      <span>Map</span>
+    </div>
+  </nav>
+
+  <section class="hero">
+
+    <div class="hero-left">
+
+      <div class="tag">
+        Real riders. Real routes. No AI guessing.
+      </div>
+
+      <h1>
+        The bike route app built by people who actually ride.
+      </h1>
+
+      <p>
+        LocalRide helps cyclists discover which routes feel amazing and which ones secretly suck. Get honest notes from local riders about traffic, pavement, scenery, sketchy intersections, flooding, dogs, shortcuts, and hidden downhill stretches.
+      </p>
+
+      <div class="buttons">
+        <button class="btn btn-primary">Explore Routes</button>
+        <button class="btn btn-secondary">Log Your Ride</button>
+      </div>
+
+    </div>
+
+    <div class="phone">
+
+      <div class="map">
+        <div class="pin pin1"></div>
+        <div class="pin pin2"></div>
+        <div class="pin pin3"></div>
+      </div>
+
+      <div class="route-card">
+
+        <div class="route-top">
+          <div class="route-title">Ballona Creek Loop</div>
+          <div class="rating">4.8 ★</div>
+        </div>
+
+        <div class="note">
+          “Amazing downhill near Culver Blvd. Avoid after heavy rain — path floods hard under the bridge.”
+        </div>
+
+        <div class="stats">
+          <div class="pill">Surface: 9/10</div>
+          <div class="pill">Safety: 7/10</div>
+          <div class="pill">Fun: 10/10</div>
+          <div class="pill">Scenery: 8/10</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section>
+
+    <h2 class="section-title">
+      Why LocalRide works
+    </h2>
+
+    <p class="section-sub">
+      Maps only show roads. Riders know the truth. LocalRide turns local cyclists into the source of knowledge for every route in their city.
+    </p>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>Real Route Reviews</h3>
+        <p>
+          Every review comes from somebody who actually rode the route recently — not scraped data or AI summaries.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Hazard Waypoints</h3>
+        <p>
+          Mark exact GPS spots for potholes, blind turns, flooding, aggressive traffic, or dangerous crossings.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Hidden Gems</h3>
+        <p>
+          Discover smooth pavement, scenic views, downhill stretches, coffee stops, and low-traffic shortcuts locals love.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Always Current</h3>
+        <p>
+          Conditions change weekly. Riders update routes constantly so you know what the path feels like today.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section>
+
+    <h2 class="section-title">
+      What riders are saying
+    </h2>
+
+    <div class="review-section">
+
+      <div class="review">
+
+        <div class="review-user">
+          <div class="avatar"></div>
+
+          <div>
+            <strong>Jayden</strong><br>
+            <span style="color:#8e8e8e;">Culver City Rider</span>
+          </div>
+        </div>
+
+        <p>
+          “Google Maps sent me through an underpass with zero bike lane. LocalRide warned me before I even left.”
+        </p>
+
+      </div>
+
+      <div class="review">
+
+        <div class="review-user">
+          <div class="avatar"></div>
+
+          <div>
+            <strong>Sofia</strong><br>
+            <span style="color:#8e8e8e;">Santa Monica Cyclist</span>
+          </div>
+        </div>
+
+        <p>
+          “Somebody marked this hidden ocean-view path and now it’s my favorite sunset ride in LA.”
+        </p>
+
+      </div>
+
+      <div class="review">
+
+        <div class="review-user">
+          <div class="avatar"></div>
+
+          <div>
+            <strong>Ethan</strong><br>
+            <span style="color:#8e8e8e;">Daily Commuter</span>
+          </div>
+        </div>
+
+        <p>
+          “The flood warnings alone saved me from ruining my bike twice this winter.”
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section style="text-align:center;">
+
+    <h2 class="section-title">
+      Built for local riders.
+    </h2>
+
+    <p class="section-sub" style="margin:auto;">
+      The best route knowledge lives with the people who ride every week. LocalRide gives them a place to share it.
+    </p>
+
+    <div class="buttons" style="justify-content:center; margin-top:40px;">
+      <button class="btn btn-primary">Start Riding</button>
+    </div>
+
+  </section>
+
+  <footer>
+    © 2026 LocalRide — Community-powered cycling routes.
+  </footer>
+
+</body>
+</html>
